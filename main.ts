@@ -2,10 +2,9 @@ namespace SpriteKind {
     export const Collision = SpriteKind.create()
     export const Texture = SpriteKind.create()
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Sonic.vy == 10) {
-        Sonic.vy = -125
-    }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
+    Sonic.y += -1
+    Sonic.vy = 0
 })
 function SetAnim () {
     characterAnimations.loopFrames(
@@ -51,9 +50,11 @@ function SetAnim () {
     characterAnimations.rule(Predicate.NotMoving, Predicate.FacingLeft)
     )
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
-    Sonic.y += -1
-    Sonic.vy = -5
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Sonic.vy == 10) {
+        Sonic.vy = -125
+        music.play(music.createSoundEffect(WaveShape.Square, 1, 2394, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
+    }
 })
 let Direction = 0
 let Texture: Sprite = null
@@ -65,7 +66,9 @@ let Sonic: Sprite = null
 Sonic = sprites.create(assets.image`SonicIdleR`, SpriteKind.Player)
 SetAnim()
 tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level2`))
-music.play(music.createSong(assets.song`Leafy Valleys`), music.PlaybackMode.LoopingInBackground)
+scene.setBackgroundImage(assets.image`myImage`)
+music.play(music.createSong(assets.song`g`), music.PlaybackMode.LoopingInBackground)
+tiles.placeOnTile(Sonic, tiles.getTileLocation(1, 13))
 for (let slopeRight of tiles.getTilesByType(assets.tile`myTile1`)) {
     rSlope = sprites.create(assets.image`GroundSlopeRight`, SpriteKind.Collision)
     tiles.placeOnTile(rSlope, slopeRight)
@@ -86,10 +89,23 @@ for (let AboveGround of tiles.getTilesByType(assets.tile`myTile`)) {
     tiles.placeOnTile(aGround, AboveGround)
     tiles.setTileAt(AboveGround, assets.tile`transparency16`)
 }
+for (let AboveGround of tiles.getTilesByType(assets.tile`myTile8`)) {
+    aGround = sprites.create(assets.image`GroundBelow0`, SpriteKind.Collision)
+    tiles.placeOnTile(aGround, AboveGround)
+    tiles.setTileAt(AboveGround, assets.tile`transparency16`)
+}
 for (let soil of tiles.getTilesByType(assets.tile`myTile4`)) {
     Texture = sprites.create(assets.image`Grass`, SpriteKind.Texture)
     tiles.placeOnTile(Texture, soil)
+    Texture.z = 20
     tiles.setTileAt(soil, assets.tile`transparency16`)
+}
+for (let Trees of tiles.getTilesByType(assets.tile`myTile5`)) {
+    Texture = sprites.create(assets.image`Tree`, SpriteKind.Texture)
+    tiles.placeOnTile(Texture, Trees)
+    Texture.y += -12
+    Texture.z = -20
+    tiles.setTileAt(Trees, assets.tile`transparency16`)
 }
 game.onUpdate(function () {
     Sonic.vy += 10
@@ -126,5 +142,4 @@ game.onUpdate(function () {
     if (Sonic.vy != 10) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving))
     }
-    info.setScore(Sonic.vx)
 })
