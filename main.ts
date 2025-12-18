@@ -65,9 +65,10 @@ let rSlope: Sprite = null
 let Sonic: Sprite = null
 Sonic = sprites.create(assets.image`SonicIdleR`, SpriteKind.Player)
 SetAnim()
+characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.NotMoving, Predicate.FacingRight))
 tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level2`))
-scene.setBackgroundImage(assets.image`myImage`)
-music.play(music.createSong(assets.song`g`), music.PlaybackMode.LoopingInBackground)
+scene.setBackgroundColor(9)
+music.play(music.createSong(assets.song`Leafy Valleys Zone`), music.PlaybackMode.LoopingInBackground)
 tiles.placeOnTile(Sonic, tiles.getTileLocation(1, 13))
 for (let slopeRight of tiles.getTilesByType(assets.tile`myTile1`)) {
     rSlope = sprites.create(assets.image`GroundSlopeRight`, SpriteKind.Collision)

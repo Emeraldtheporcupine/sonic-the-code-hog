@@ -9,18 +9,6 @@
         "mimeType": "image/x-mkcd-f4",
         "tilemapTile": true
     },
-    "tile1": {
-        "data": "hwQIAAgAAABm7N3dd8fd3Wbs3d13x93dZsbu7nfc7u5m3O7ud8fu7g==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "Green1"
-    },
-    "tile2": {
-        "data": "hwQIAAgAAADu7t3d7u7d3e7u3d3u7t3d3d3u7t3d7u7d3e7u3d3u7g==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "myTile0"
-    },
     "tile4": {
         "data": "hwQIAAgAAAAAAAAwAAAAAwAAMAADAAMAAzAAAAMDAAAzAAAAMzMAAA==",
         "mimeType": "image/x-mkcd-f4",
@@ -57,23 +45,35 @@
         "tilemapTile": true,
         "displayName": "myTile5"
     },
-    "tile9": {
-        "data": "hwQIAAgAAABm7N3dx+7d3ezu3d3u7t3d3d3u7t3d7u7d3e7u3d3u7g==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "myTile6"
-    },
-    "tile10": {
-        "data": "hwQIAAgAAADu7t3d7u7d3e7u3d3u7t3d3d3u7tzd7u7G3e7ud9zu7g==",
-        "mimeType": "image/x-mkcd-f4",
-        "tilemapTile": true,
-        "displayName": "myTile7"
-    },
     "tile11": {
         "data": "hwQIAAgAAABw5w0AAADQAAAA0ABg7g0AAAAAAHDX7gBg0AAAAAcAAA==",
         "mimeType": "image/x-mkcd-f4",
         "tilemapTile": true,
         "displayName": "myTile8"
+    },
+    "tile2": {
+        "data": "hwQIAAgAAADMzO7uzMzu7szM7u7MzO7u7u7MzO7uzMzu7szM7u7MzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "myTile0"
+    },
+    "tile10": {
+        "data": "hwQIAAgAAADMzO7uzMzu7szM7u7MzO7u7u7MzO/uzMz47szMhu/MzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "myTile7"
+    },
+    "tile9": {
+        "data": "hwQIAAgAAACGz+7u+Mzu7s/M7u7MzO7u7u7MzO7uzMzu7szM7u7MzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "myTile6"
+    },
+    "tile1": {
+        "data": "hwQIAAgAAACGz+7uZ/ju7mbP7u5n+O7uZ/bMzIbvzMxm78zMZ/jMzA==",
+        "mimeType": "image/x-mkcd-f4",
+        "tilemapTile": true,
+        "displayName": "Green1"
     },
     "level1": {
         "id": "level1",
