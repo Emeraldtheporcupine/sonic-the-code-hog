@@ -2,9 +2,11 @@ namespace SpriteKind {
     export const Collision = SpriteKind.create()
     export const Texture = SpriteKind.create()
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
-    Sonic.y += -1
-    Sonic.vy = 0
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Sonic.vy == 0) {
+        Sonic.vy = -125
+        music.play(music.createSoundEffect(WaveShape.Square, 1, 2394, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
+    }
 })
 function SetAnim () {
     characterAnimations.loopFrames(
@@ -50,25 +52,25 @@ function SetAnim () {
     characterAnimations.rule(Predicate.NotMoving, Predicate.FacingLeft)
     )
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Sonic.vy == 10) {
-        Sonic.vy = -125
-        music.play(music.createSoundEffect(WaveShape.Square, 1, 2394, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
-    }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
+    Sonic.vy = 0
+    Sonic.y += -1
 })
 let Direction = 0
-let Texture: Sprite = null
+let Texture2: Sprite = null
 let aGround: Sprite = null
 let bGround: Sprite = null
 let LSlope: Sprite = null
 let rSlope: Sprite = null
 let Sonic: Sprite = null
 Sonic = sprites.create(assets.image`SonicIdleR`, SpriteKind.Player)
+Sonic.ay = 400
 SetAnim()
+scene.cameraFollowSprite(Sonic)
 characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.NotMoving, Predicate.FacingRight))
-scene.setBackgroundColor(9)
+scene.setBackgroundImage(assets.image`Night`)
 tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level2`))
-music.play(music.createSong(assets.song`g`), music.PlaybackMode.LoopingInBackground)
+music.play(music.createSong(assets.song`Zone`), music.PlaybackMode.LoopingInBackground)
 tiles.placeOnTile(Sonic, tiles.getTileLocation(1, 13))
 for (let slopeRight of tiles.getTilesByType(assets.tile`myTile1`)) {
     rSlope = sprites.create(assets.image`GroundSlopeRight`, SpriteKind.Collision)
@@ -90,26 +92,30 @@ for (let AboveGround of tiles.getTilesByType(assets.tile`myTile`)) {
     tiles.placeOnTile(aGround, AboveGround)
     tiles.setTileAt(AboveGround, assets.tile`transparency16`)
 }
-for (let AboveGround of tiles.getTilesByType(assets.tile`myTile8`)) {
+for (let AboveGround2 of tiles.getTilesByType(assets.tile`myTile8`)) {
     aGround = sprites.create(assets.image`GroundBelow0`, SpriteKind.Collision)
-    tiles.placeOnTile(aGround, AboveGround)
-    tiles.setTileAt(AboveGround, assets.tile`transparency16`)
+    tiles.placeOnTile(aGround, AboveGround2)
+    tiles.setTileAt(AboveGround2, assets.tile`transparency16`)
 }
-for (let soil of tiles.getTilesByType(assets.tile`myTile4`)) {
-    Texture = sprites.create(assets.image`Grass`, SpriteKind.Texture)
-    tiles.placeOnTile(Texture, soil)
-    Texture.z = 20
-    tiles.setTileAt(soil, assets.tile`transparency16`)
+for (let AboveGround3 of tiles.getTilesByType(assets.tile`myTile9`)) {
+    aGround = sprites.create(assets.image`GroundBelow1`, SpriteKind.Collision)
+    tiles.placeOnTile(aGround, AboveGround3)
+    tiles.setTileAt(AboveGround3, assets.tile`transparency16`)
 }
 for (let Trees of tiles.getTilesByType(assets.tile`myTile5`)) {
-    Texture = sprites.create(assets.image`Tree`, SpriteKind.Texture)
-    tiles.placeOnTile(Texture, Trees)
-    Texture.y += -12
-    Texture.z = -20
-    tiles.setTileAt(Trees, assets.tile`transparency16`)
+    Texture2 = sprites.create(assets.image`Tree`, SpriteKind.Texture)
+    tiles.placeOnTile(Texture2, Trees)
+    Texture2.y += -12
+    Texture2.z = -20
+    tiles.setTileAt(Trees, assets.tile`myTile4`)
+}
+for (let soil of tiles.getTilesByType(assets.tile`myTile4`)) {
+    Texture2 = sprites.create(assets.image`Grass`, SpriteKind.Texture)
+    tiles.placeOnTile(Texture2, soil)
+    Texture2.z = 20
+    tiles.setTileAt(soil, assets.tile`transparency16`)
 }
 game.onUpdate(function () {
-    Sonic.vy += 10
     if (controller.right.isPressed()) {
         Direction = 1
         Sonic.vx += 1
@@ -140,7 +146,7 @@ game.onUpdate(function () {
     } else if (Sonic.vx < -87) {
         Sonic.vx = -87
     }
-    if (Sonic.vy != 10) {
+    if (Sonic.vy != 0) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving))
     }
 })
