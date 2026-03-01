@@ -2,6 +2,7 @@ namespace SpriteKind {
     export const Collision = SpriteKind.create()
     export const Texture = SpriteKind.create()
     export const RingCollect = SpriteKind.create()
+    export const Emerald = SpriteKind.create()
 }
 function PlaceTiles () {
     for (let slopeRight of tiles.getTilesByType(assets.tile`myTile1`)) {
@@ -9,25 +10,30 @@ function PlaceTiles () {
         tiles.placeOnTile(rSlope, slopeRight)
         tiles.setTileAt(slopeRight, assets.tile`transparency16`)
     }
-    for (let slopeRight of tiles.getTilesByType(assets.tile`myTile14`)) {
-        rSlope = sprites.create(assets.image`GroundSlopeRight0`, SpriteKind.Collision)
-        tiles.placeOnTile(rSlope, slopeRight)
-        tiles.setTileAt(slopeRight, assets.tile`myTile10`)
+    for (let slopeRight2 of tiles.getTilesByType(assets.tile`myTile14`)) {
+        rSlope = sprites.create(assets.image`UnderGroundSlopeRight`, SpriteKind.Collision)
+        tiles.placeOnTile(rSlope, slopeRight2)
+        tiles.setTileAt(slopeRight2, assets.tile`myTile10`)
     }
     for (let slopeLeft of tiles.getTilesByType(assets.tile`myTile2`)) {
         LSlope = sprites.create(assets.image`GroundSlopeLeft`, SpriteKind.Collision)
         tiles.placeOnTile(LSlope, slopeLeft)
         tiles.setTileAt(slopeLeft, assets.tile`transparency16`)
     }
+    for (let slopeLeft2 of tiles.getTilesByType(assets.tile`myTile15`)) {
+        LSlope = sprites.create(assets.image`UnderGroundSlopeLeft`, SpriteKind.Collision)
+        tiles.placeOnTile(LSlope, slopeLeft2)
+        tiles.setTileAt(slopeLeft2, assets.tile`transparency16`)
+    }
     for (let BelowGround of tiles.getTilesByType(assets.tile`myTile3`)) {
         bGround = sprites.create(assets.image`GroundBelow`, SpriteKind.Collision)
         tiles.placeOnTile(bGround, BelowGround)
         tiles.setTileAt(BelowGround, assets.tile`transparency16`)
     }
-    for (let BelowGround of tiles.getTilesByType(assets.tile`myTile16`)) {
+    for (let BelowGround2 of tiles.getTilesByType(assets.tile`myTile16`)) {
         bGround = sprites.create(assets.image`ABOVE`, SpriteKind.Collision)
-        tiles.placeOnTile(bGround, BelowGround)
-        tiles.setTileAt(BelowGround, assets.tile`transparency16`)
+        tiles.placeOnTile(bGround, BelowGround2)
+        tiles.setTileAt(BelowGround2, assets.tile`transparency16`)
     }
     for (let RingOut of tiles.getTilesByType(assets.tile`myTile18`)) {
         Ring = sprites.create(img`
@@ -54,10 +60,40 @@ function PlaceTiles () {
         150,
         true
         )
-        Ring.x += 2
-        Ring.y += 2
         tiles.placeOnTile(Ring, RingOut)
+        Ring.x += 7
+        Ring.y += 2
         tiles.setTileAt(RingOut, assets.tile`transparency16`)
+    }
+    for (let RingOut2 of tiles.getTilesByType(assets.tile`myTile22`)) {
+        Ring = sprites.create(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            . . . . . . . . . . . . . . . . 
+            `, SpriteKind.RingCollect)
+        animation.runImageAnimation(
+        Ring,
+        assets.animation`Ring`,
+        150,
+        true
+        )
+        tiles.placeOnTile(Ring, RingOut2)
+        Ring.x += 7
+        Ring.y += 2
+        tiles.setTileAt(RingOut2, assets.tile`myTile10`)
     }
     for (let AboveGround of tiles.getTilesByType(assets.tile`myTile`)) {
         aGround = sprites.create(assets.image`Ground`, SpriteKind.Collision)
@@ -81,23 +117,22 @@ function PlaceTiles () {
         Texture2.z = -20
         tiles.setTileAt(Trees, assets.tile`myTile4`)
     }
+    for (let EMERALDS of tiles.getTilesByType(assets.tile`myTile25`)) {
+        Chaos_Emerald = sprites.create(assets.image`Emerald`, SpriteKind.Emerald)
+        tiles.placeOnTile(Chaos_Emerald, EMERALDS)
+        Chaos_Emerald.z = 20
+        tiles.setTileAt(EMERALDS, assets.tile`transparency8`)
+    }
     for (let soil of tiles.getTilesByType(assets.tile`myTile4`)) {
         Texture2 = sprites.create(assets.image`Grass`, SpriteKind.Texture)
         tiles.placeOnTile(Texture2, soil)
         Texture2.z = 20
-        tiles.setTileAt(soil, assets.tile`transparency16`)
+        tiles.setTileAt(soil, assets.tile`transparency8`)
     }
 }
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    if (Sonic.vy == 0) {
-        Sonic.vy = -125
-        music.play(music.createSoundEffect(WaveShape.Square, 1, 2394, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
-    }
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.RingCollect, function (sprite, otherSprite) {
-    music.setVolume(50)
-    music.play(music.createSong(assets.song`Ring`), music.PlaybackMode.InBackground)
-    sprites.destroy(otherSprite)
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
+    Sonic.vy = Sonic.vy * 0.02
+    Sonic.y += -1
 })
 function SetAnim () {
     characterAnimations.loopFrames(
@@ -143,11 +178,20 @@ function SetAnim () {
     characterAnimations.rule(Predicate.NotMoving, Predicate.FacingLeft)
     )
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
-    Sonic.vy = 0
-    Sonic.y += -1
+sprites.onOverlap(SpriteKind.Player, SpriteKind.RingCollect, function (sprite, otherSprite) {
+    music.setVolume(100)
+    music.play(music.stringPlayable("C7:4 E7 G7 C8 - - - - ", 1250), music.PlaybackMode.InBackground)
+    sprites.destroy(otherSprite)
+})
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (Sonic.vy == 0) {
+        Sonic.vy = -125
+        music.play(music.createSoundEffect(WaveShape.Square, 1, 2394, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
+    }
 })
 let Direction = 0
+let distance = 0
+let Chaos_Emerald: Sprite = null
 let Texture2: Sprite = null
 let aGround: Sprite = null
 let Ring: Sprite = null
@@ -161,11 +205,17 @@ SetAnim()
 scene.cameraFollowSprite(Sonic)
 characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.NotMoving, Predicate.FacingRight))
 scene.setBackgroundImage(assets.image`Night`)
+let Moon = sprites.create(assets.image`Moon`, SpriteKind.Texture)
+Moon.setFlag(SpriteFlag.Ghost, true)
+Moon.z = -15
 tiles.setCurrentTilemap(tileUtil.createSmallMap(tilemap`level2`))
 music.play(music.createSong(assets.song`Sleepy Hill Zone`), music.PlaybackMode.LoopingInBackground)
+scroller.scrollBackgroundWithCamera(scroller.CameraScrollMode.OnlyHorizontal)
+scroller.setCameraScrollingMultipliers(0.2, 0)
 tiles.placeOnTile(Sonic, tiles.getTileLocation(1, 13))
 PlaceTiles()
 game.onUpdate(function () {
+    distance = scene.cameraProperty(CameraProperty.X) / 76
     if (controller.right.isPressed()) {
         Direction = 1
         Sonic.vx += 1
@@ -181,22 +231,23 @@ game.onUpdate(function () {
     } else if (Direction == -1) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.FacingLeft, Predicate.NotMoving))
     }
-    if (Sonic.vx > 10 && Sonic.vx < 59) {
+    if (Sonic.vx > 10 && Sonic.vx < 44) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving, Predicate.FacingRight))
-    } else if (Sonic.vx < -10 && Sonic.vx > -59) {
+    } else if (Sonic.vx < -10 && Sonic.vx > -44) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving, Predicate.FacingLeft))
     }
-    if (Sonic.vx > 60) {
+    if (Sonic.vx > 45) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.MovingRight, Predicate.FacingRight))
-    } else if (Sonic.vx < -60) {
+    } else if (Sonic.vx < -45) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.MovingLeft, Predicate.FacingLeft))
     }
-    if (Sonic.vx > 87) {
-        Sonic.vx = 87
-    } else if (Sonic.vx < -87) {
-        Sonic.vx = -87
+    if (Sonic.vx > 60) {
+        Sonic.vx = 60
+    } else if (Sonic.vx < -60) {
+        Sonic.vx = -60
     }
     if (Sonic.vy != 0) {
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving))
     }
+    Moon.setPosition(scene.cameraProperty(CameraProperty.X) - (50 + distance), scene.cameraProperty(CameraProperty.Y) - 40)
 })
