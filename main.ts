@@ -3,6 +3,7 @@ namespace SpriteKind {
     export const Texture = SpriteKind.create()
     export const RingCollect = SpriteKind.create()
     export const Emerald = SpriteKind.create()
+    export const Goal = SpriteKind.create()
 }
 function PlaceTiles () {
     for (let slopeRight of tiles.getTilesByType(assets.tile`myTile1`)) {
@@ -23,7 +24,7 @@ function PlaceTiles () {
     for (let slopeLeft2 of tiles.getTilesByType(assets.tile`myTile15`)) {
         LSlope = sprites.create(assets.image`UnderGroundSlopeLeft`, SpriteKind.Collision)
         tiles.placeOnTile(LSlope, slopeLeft2)
-        tiles.setTileAt(slopeLeft2, assets.tile`transparency16`)
+        tiles.setTileAt(slopeLeft2, assets.tile`myTile10`)
     }
     for (let BelowGround of tiles.getTilesByType(assets.tile`myTile3`)) {
         bGround = sprites.create(assets.image`GroundBelow`, SpriteKind.Collision)
@@ -121,7 +122,13 @@ function PlaceTiles () {
         Chaos_Emerald = sprites.create(assets.image`Emerald`, SpriteKind.Emerald)
         tiles.placeOnTile(Chaos_Emerald, EMERALDS)
         Chaos_Emerald.z = 20
-        tiles.setTileAt(EMERALDS, assets.tile`transparency8`)
+        tiles.setTileAt(EMERALDS, assets.tile`myTile10`)
+    }
+    for (let SignPost of tiles.getTilesByType(assets.tile`myTile27`)) {
+        GoalPost = sprites.create(assets.image`GoalPost`, SpriteKind.Goal)
+        tiles.placeOnTile(GoalPost, SignPost)
+        GoalPost.z = -5
+        tiles.setTileAt(SignPost, assets.tile`transparency8`)
     }
     for (let soil of tiles.getTilesByType(assets.tile`myTile4`)) {
         Texture2 = sprites.create(assets.image`Grass`, SpriteKind.Texture)
@@ -189,8 +196,13 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         music.play(music.createSoundEffect(WaveShape.Square, 1, 2394, 255, 0, 200, SoundExpressionEffect.None, InterpolationCurve.Linear), music.PlaybackMode.InBackground)
     }
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Emerald, function (sprite, otherSprite) {
+    sprites.destroy(otherSprite)
+    music.play(music.stringPlayable("E5:3 G5:3 C6:3 E6:6 C6:6 G6:16 ", 240), music.PlaybackMode.InBackground)
+})
 let Direction = 0
 let distance = 0
+let GoalPost: Sprite = null
 let Chaos_Emerald: Sprite = null
 let Texture2: Sprite = null
 let aGround: Sprite = null
