@@ -137,6 +137,31 @@ function PlaceTiles () {
         tiles.setTileAt(soil, assets.tile`transparency8`)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Goal, function (sprite, otherSprite) {
+    otherSprite.setKind(SpriteKind.Texture)
+    music.stopAllSounds()
+    Control = false
+    sprite.vx = 0
+    sprite.vx = 60
+    characterAnimations.setCharacterState(sprite, characterAnimations.rule(Predicate.MovingRight, Predicate.FacingRight))
+    sprite.ay = 0
+    sprite.setFlag(SpriteFlag.Ghost, true)
+    sprite.setFlag(SpriteFlag.AutoDestroy, true)
+    animation.runImageAnimation(
+    otherSprite,
+    assets.animation`Spin`,
+    50,
+    true
+    )
+    timer.after(1000, function () {
+        animation.stopAnimation(animation.AnimationTypes.All, otherSprite)
+        otherSprite.setImage(assets.image`GoalPost0`)
+        music.play(music.createSong(assets.song`Act Clear`), music.PlaybackMode.UntilDone)
+        timer.after(500, function () {
+            game.reset()
+        })
+    })
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
     Sonic.vy = Sonic.vy * 0.02
     Sonic.y += -1
@@ -193,30 +218,6 @@ function SetAnim () {
     characterAnimations.rule(Predicate.NotMoving, Predicate.FacingLeft)
     )
 }
-sprites.onOverlap(SpriteKind.Player, SpriteKind.Goal, function (sprite, otherSprite) {
-    otherSprite.setKind(SpriteKind.Texture)
-    music.stopAllSounds()
-    Control = false
-    sprite.vx = 0
-    sprite.vx = 60
-    characterAnimations.setCharacterState(sprite, characterAnimations.rule(Predicate.MovingRight, Predicate.FacingRight))
-    sprite.ay = 0
-    sprite.setFlag(SpriteFlag.Ghost, true)
-    sprite.setFlag(SpriteFlag.AutoDestroy, true)
-    animation.runImageAnimation(
-    otherSprite,
-    assets.animation`Spin`,
-    50,
-    true
-    )
-    timer.after(1000, function () {
-        animation.stopAnimation(animation.AnimationTypes.All, otherSprite)
-        otherSprite.setImage(assets.image`GoalPost0`)
-    })
-    timer.after(1500, function () {
-        music.play(music.createSong(assets.song`Act Clear`), music.PlaybackMode.InBackground)
-    })
-})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.RingCollect, function (sprite, otherSprite) {
     music.setVolume(100)
     music.play(music.stringPlayable("C7:4 E7 G7 C8 - - - - ", 1250), music.PlaybackMode.InBackground)
@@ -253,7 +254,6 @@ music.play(music.createSong(assets.song`Sleepy Hill Zone`), music.PlaybackMode.L
 scroller.scrollBackgroundWithCamera(scroller.CameraScrollMode.OnlyHorizontal)
 scroller.setCameraScrollingMultipliers(0.2, 0)
 tiles.placeOnTile(Sonic, tiles.getTileLocation(1, 13))
-tiles.placeOnTile(Sonic, tiles.getTileLocation(151, 10))
 PlaceTiles()
 game.onUpdate(function () {
     distance = scene.cameraProperty(CameraProperty.X) / 76
