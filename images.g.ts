@@ -342,6 +342,21 @@ b b e 5 5 2 2 5 5 e b b
 . . . . . b b . . . . . 
 . 7 7 . . 7 b 7 7 . 7 . 
 `;
+            case "image18":
+            case "GoalPost0":return img`
+. b b b b b b b b b b . 
+b b 2 2 2 2 2 2 2 2 b b 
+b 2 2 8 2 2 8 2 2 2 2 b 
+b 2 2 8 8 8 8 8 8 2 2 b 
+b 2 2 f 1 f 8 8 8 8 8 b 
+b 2 2 f 1 f 8 8 8 2 2 b 
+b 2 f f d d d d b 1 8 b 
+b b 2 d d d d 1 b 1 b b 
+. b b b b b b 1 1 b b . 
+. . . . . b b . . . . . 
+. . . . . b b . . . . . 
+. 7 7 . . 7 b 7 7 . 7 . 
+`;
         }
         return null;
     })

@@ -84,6 +84,11 @@
         "mimeType": "image/x-mkcd-f4",
         "displayName": "GoalPost"
     },
+    "image18": {
+        "data": "hwQMAAwAAACwu7u7AAAAALsiIrILcAAAKyIiLwtwAAAriP/fCwAAACuCEd0LAAAAK4L/3bt7AAAriIjdu7sAACuCiB0BcAAAK4KIuwFwAAArIigRCwAAALsiKLgLcAAAsLu7uwAAAAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "GoalPost0"
+    },
     "anim1": {
         "namespace": "myAnimations",
         "id": "anim1",
