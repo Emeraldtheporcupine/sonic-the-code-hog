@@ -214,7 +214,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Goal, function (sprite, otherSpr
         otherSprite.setImage(assets.image`GoalPost0`)
     })
     timer.after(1500, function () {
-    	
+        music.play(music.createSong(assets.song`Act Clear`), music.PlaybackMode.InBackground)
     })
 })
 sprites.onOverlap(SpriteKind.Player, SpriteKind.RingCollect, function (sprite, otherSprite) {
