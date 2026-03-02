@@ -137,6 +137,19 @@ function PlaceTiles () {
         tiles.setTileAt(soil, assets.tile`transparency8`)
     }
 }
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Goal, function (sprite, otherSprite) {
+    otherSprite.setKind(SpriteKind.Texture)
+    music.stopAllSounds()
+    animation.runImageAnimation(
+    otherSprite,
+    assets.animation`Spin`,
+    50,
+    true
+    )
+    timer.after(600, function () {
+        animation.stopAnimation(animation.AnimationTypes.All, otherSprite)
+    })
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Collision, function (sprite, otherSprite) {
     Sonic.vy = Sonic.vy * 0.02
     Sonic.y += -1
@@ -211,6 +224,7 @@ let bGround: Sprite = null
 let LSlope: Sprite = null
 let rSlope: Sprite = null
 let Sonic: Sprite = null
+let Control = true
 Sonic = sprites.create(assets.image`SonicIdleR`, SpriteKind.Player)
 Sonic.ay = 400
 SetAnim()
@@ -228,38 +242,43 @@ tiles.placeOnTile(Sonic, tiles.getTileLocation(1, 13))
 PlaceTiles()
 game.onUpdate(function () {
     distance = scene.cameraProperty(CameraProperty.X) / 76
-    if (controller.right.isPressed()) {
-        Direction = 1
-        Sonic.vx += 1
-    } else if (controller.left.isPressed()) {
-        Direction = -1
-        Sonic.vx += -1
+    if (Control == true) {
+        if (controller.right.isPressed()) {
+            Direction = 1
+            Sonic.vx += 1
+        } else if (controller.left.isPressed()) {
+            Direction = -1
+            Sonic.vx += -1
+        } else {
+            Sonic.vx += Sonic.vx * -0.15
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.NotMoving))
+        }
+        if (Direction == 1) {
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.FacingRight, Predicate.NotMoving))
+        } else if (Direction == -1) {
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.FacingLeft, Predicate.NotMoving))
+        }
+        if (Sonic.vx > 10 && Sonic.vx < 44) {
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving, Predicate.FacingRight))
+        } else if (Sonic.vx < -10 && Sonic.vx > -44) {
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving, Predicate.FacingLeft))
+        }
+        if (Sonic.vx > 45) {
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.MovingRight, Predicate.FacingRight))
+        } else if (Sonic.vx < -45) {
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.MovingLeft, Predicate.FacingLeft))
+        }
+        if (Sonic.vx > 60) {
+            Sonic.vx = 60
+        } else if (Sonic.vx < -60) {
+            Sonic.vx = -60
+        }
+        if (Sonic.vy != 0) {
+            characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving))
+        }
     } else {
         Sonic.vx += Sonic.vx * -0.15
         characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.NotMoving))
-    }
-    if (Direction == 1) {
-        characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.FacingRight, Predicate.NotMoving))
-    } else if (Direction == -1) {
-        characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.FacingLeft, Predicate.NotMoving))
-    }
-    if (Sonic.vx > 10 && Sonic.vx < 44) {
-        characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving, Predicate.FacingRight))
-    } else if (Sonic.vx < -10 && Sonic.vx > -44) {
-        characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving, Predicate.FacingLeft))
-    }
-    if (Sonic.vx > 45) {
-        characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.MovingRight, Predicate.FacingRight))
-    } else if (Sonic.vx < -45) {
-        characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.MovingLeft, Predicate.FacingLeft))
-    }
-    if (Sonic.vx > 60) {
-        Sonic.vx = 60
-    } else if (Sonic.vx < -60) {
-        Sonic.vx = -60
-    }
-    if (Sonic.vy != 0) {
-        characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.Moving))
     }
     Moon.setPosition(scene.cameraProperty(CameraProperty.X) - (50 + distance), scene.cameraProperty(CameraProperty.Y) - 40)
 })
