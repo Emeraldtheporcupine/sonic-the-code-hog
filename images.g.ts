@@ -139,17 +139,6 @@ c c c c f f f f
 c c c c f f f f 
 c c c c f f f f 
 `;
-            case "image13":
-            case "ABOVE":return img`
-d d d e d e d e 
-e e e e e e e e 
-c c c c e e e e 
-c c c c e e e e 
-c c c c e e e e 
-e e e e c c c c 
-e e e e c c c c 
-e e e e c c c c 
-`;
             case "image11":
             case "UnderGroundSlopeRight":return img`
 . . . . . . . d 
@@ -401,6 +390,30 @@ f88f5ffffffffffffffff5555555f55f8888ff5555f8f5555555555f8888888888888f..........
 f88f5555555555555555f555555ff55f888888ff55f8f5555555555f888888888888f..........................
 f88ffffffffffffffffffffffff8ffff8888888ffff8ffffffffffff88888888888f...........................
 fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff............................
+`;
+            case "image20":
+            case "myImage":return img`
+. . . . . . . . 
+. . . . . . . . 
+. . . . . . . . 
+. . . . . . . . 
+. . . . . . . . 
+. . . . . . . . 
+. . . . . . . . 
+c c c c f f f f 
+`;
+            case "image13":
+            case "ABOVE":return img`
+c c c c f f f f 
+d d d e d e d e 
+e e e e e e e e 
+c c c c e e e e 
+c c c c e e e e 
+c c c c e e e e 
+e e e e c c c c 
+e e e e c c c c 
+e e e e c c c c 
+. . . . . . . . 
 `;
         }
         return null;
