@@ -239,7 +239,7 @@ let LSlope: Sprite = null
 let rSlope: Sprite = null
 let Sonic: Sprite = null
 let Control = false
-Control = true
+Control = false
 Sonic = sprites.create(assets.image`SonicIdleR`, SpriteKind.Player)
 Sonic.ay = 400
 SetAnim()
@@ -255,6 +255,17 @@ scroller.scrollBackgroundWithCamera(scroller.CameraScrollMode.OnlyHorizontal)
 scroller.setCameraScrollingMultipliers(0.2, 0)
 tiles.placeOnTile(Sonic, tiles.getTileLocation(1, 13))
 PlaceTiles()
+let ZoneCard = sprites.create(assets.image`titleCard`, SpriteKind.Texture)
+ZoneCard.setPosition(scene.cameraProperty(CameraProperty.X) - 125, scene.cameraProperty(CameraProperty.Y) - 39)
+ZoneCard.vx = 100
+timer.after(900, function () {
+    ZoneCard.vx = 0
+    timer.after(1000, function () {
+        Control = true
+        ZoneCard.vx = -200
+        ZoneCard.setFlag(SpriteFlag.AutoDestroy, true)
+    })
+})
 game.onUpdate(function () {
     distance = scene.cameraProperty(CameraProperty.X) / 76
     if (Control == true) {
