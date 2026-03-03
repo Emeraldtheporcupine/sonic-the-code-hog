@@ -260,10 +260,18 @@ game.onUpdate(function () {
     if (Control == true) {
         if (controller.right.isPressed()) {
             Direction = 1
-            Sonic.vx += 1
+            if (Sonic.vx < 0) {
+                Sonic.vx += 3
+            } else {
+                Sonic.vx += 3
+            }
         } else if (controller.left.isPressed()) {
             Direction = -1
-            Sonic.vx += -1
+            if (Sonic.vx > 0) {
+                Sonic.vx += -3
+            } else {
+                Sonic.vx += -1
+            }
         } else {
             Sonic.vx += Sonic.vx * -0.15
             characterAnimations.setCharacterState(Sonic, characterAnimations.rule(Predicate.NotMoving))
