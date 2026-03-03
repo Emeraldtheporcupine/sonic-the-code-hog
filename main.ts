@@ -263,7 +263,7 @@ game.onUpdate(function () {
             if (Sonic.vx < 0) {
                 Sonic.vx += 3
             } else {
-                Sonic.vx += 3
+                Sonic.vx += 1
             }
         } else if (controller.left.isPressed()) {
             Direction = -1
